@@ -66,7 +66,7 @@ public class Product {
 - @Service = marks class as servie component, allow spring component scanning and deps injection
 
 7. Create Controllers
-- Controllers handsles HHTP requests and maps them to service methods
+- Controllers handles HTTP requests and maps them to service methods
 - @RestController = @Controller + @ResponseBody = Handling RESTful request
-- @RequestMapping = Mapps HTTP request to handler methods
+- @RequestMapping = Maps HTTP request to handler methods
 - @GetMapping, @PostMapping = Handling GET and POST request
