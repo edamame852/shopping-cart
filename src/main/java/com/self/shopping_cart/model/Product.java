@@ -1,5 +1,6 @@
-package com.self.shopping_cart.;
+package com.self.shopping_cart.model;
 
+// Imported into pom.xml Java Persistence API (JPA)
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,4 +14,5 @@ public class Product {
     private String name;
     private double price;
 
-// Getters and setters
+    // Getters and setters
+}

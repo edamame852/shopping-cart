@@ -1,6 +1,8 @@
 # shopping-cart
 
 ## Step-by-step process
+
+
 1. Spring Initializr
 - Spring Deps
   - Spring Web (Build web, including RESTful, applications using Spring MVC. Uses Apache Tomcat as the default embedded container.)
@@ -12,7 +14,7 @@
 - packaging: jar
 - Java 17
 - Package name: com.self.shopping-cart
-2. Install Java
+2. Installing Java 17
 - `bash (WSL)`
   - Update apt-get `sudo apt-get update`, enter sudo password
   - install openjdk17 `sudo apt-get install openjdk-17-jdk`
@@ -49,9 +51,11 @@ spring.h2.console.enabled=true
 - @Entity = Making this class as a JPA entity by decorating `@Entity`
 - @Id = The primary key
 - @GeneratedValue = to auto generate primary keys 
-```java
-package com.self.shopping_cart.;
 
+```java
+package com.self.shopping_cart.model;
+
+// Imported into pom.xml Java Persistence API (JPA)
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -67,17 +71,100 @@ public class Product {
 
     // Getters and setters
 }
+
 ```
-5. Create Repository class
+5. Create test class
+- under src/test/java
+- rewrite it in this fashion
+
+```java
+package com.self.shopping_cart;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.http.ResponseEntity;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+public class ShoppingCartApplicationTests {
+
+	@Autowired
+	private TestRestTemplate restTemplate;
+
+	@Test
+	public void testGetAllProducts() {
+		ResponseEntity<String> response = restTemplate.getForEntity("/products", String.class);
+		assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
+		assertThat(response.getBody()).contains("[]");
+	}
+}
+```
+
+6. Create a Product Controllers to handle a products/ enpoint
 - Spring data JPA repositories = providing CRUD
 - JPA repository extends repository interfaces, providing save(), findAll(), findById()
+
+- Controllers handles HTTP requests and maps them to service methods
+- @RestController = @Controller + @ResponseBody = Handling RESTful request
+- @RequestMapping = Maps HTTP request to handler methods
+- @GetMapping, @PostMapping = Handling GET and POST request
+
+```java
+package com.self.shopping_cart;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+
+@RestController
+public class ProductController {
+
+    @Autowired
+    private ProductRepository productRepository;
+
+    @GetMapping("/products")
+    public List<Product> getAllProducts() {
+        return productRepository.findAll();
+    }
+}
+```
+
+7. Create Repository 
+
+
+High level design overview:
+```markdown
+src/
+    main/
+        java/
+            com/
+                self/
+                    shopping_cart/
+                        controller/
+                            ProductController.java
+                        model/
+                            Product.java
+                        repository/
+                            ProductRepository.java
+                        ShoppingCartApplication.java
+        resources/
+            application.properties
+    test/
+        java/
+            com/
+                self/
+                    shopping_cart/
+                        ShoppingCartApplicationTests.java
+```
+
 
 6. Create Service Layer
 - Service layer contains business logic and talks to repositories
 - @Service = marks class as servie component, allow spring component scanning and deps injection
 
-7. Create Controllers
-- Controllers handles HTTP requests and maps them to service methods
-- @RestController = @Controller + @ResponseBody = Handling RESTful request
-- @RequestMapping = Maps HTTP request to handler methods
-- @GetMapping, @PostMapping = Handling GET and POST request
+7. Verify that mvn can compile properly: ` mvn clean install -Dmaven.test.skip=true`

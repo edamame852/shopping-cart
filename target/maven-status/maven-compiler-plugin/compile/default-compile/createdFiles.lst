@@ -1,0 +1,4 @@
+com/self/shopping_cart/controller/ProductController.class
+com/self/shopping_cart/ShoppingCartApplication.class
+com/self/shopping_cart/repository/ProductRepository.class
+com/self/shopping_cart/model/Product.class
