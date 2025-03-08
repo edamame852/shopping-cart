@@ -13,6 +13,16 @@
 - Java 17
 - Package name: com.self.shopping-cart
 2. Install Java
+- `bash (WSL)`
+  - Update apt-get `sudo apt-get update`, enter sudo password
+  - install openjdk17 `sudo apt-get install openjdk-17-jdk`
+  - Usually apt-get java via WSL is installed `/usr/lib/jvm/java-17-openjdk-amd64`
+  - Add this into ~/.bashrc `# Installing JAVA on Mar 8, 2025
+    export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+    export PATH=$JAVA_HOME/bin:$PATH`
+  - source bashrc `source ~/.bashrc`
+  - check java version `java -version`
+  - `mvn -version` should also work as a result
 - MacOS
   - Install homebrew `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`
   - update homebrew `brew update`
@@ -23,6 +33,7 @@
   - `export JAVA_HOME=/usr/local/Cellar/openjdk@17/17.0.14/libexec/openjdk.jdk/Contents/Home
 export PATH=$JAVA_HOME/bin:$PATH`
   - source bashrc `source ~/.bashrc`
+
 3. Setup H2 DB
 - add these into src/main/resources/application.properties
 ```yml
