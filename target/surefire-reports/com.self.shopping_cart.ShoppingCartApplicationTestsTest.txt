@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: com.self.shopping_cart.ShoppingCartApplicationTestsTest
--------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.279 s -- in com.self.shopping_cart.ShoppingCartApplicationTestsTest
